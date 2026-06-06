@@ -1,71 +1,22 @@
-# Day 7 - IoT System with SQLite Integration (Clean Baseline)
+# Smart Home IoT System - Day 7
 
-## Objective
-This project extends the Day 5 IoT simulation system by introducing a SQLite database layer for persistent sensor data storage, while keeping the original dashboard UI unchanged.
-
----
+## Overview
+This project integrates Arduino, Python, SQLite, and a web dashboard to simulate a smart home IoT system.
 
 ## System Architecture
+Arduino → Python Backend → SQLite Database → HTML Dashboard
 
-Arduino (Simulated Sensor Data)
-        ↓
-Python Processor
-        ↓
-SQLite Database
-        ↓
-Future: Dashboard Integration
+## Features (Day 7)
+- Arduino device simulation (lights, fan, AC, garage, etc.)
+- Python serial communication bridge
+- SQLite database for storing sensor/device states
+- HTML dashboard for controlling devices
 
----
+## Tech Stack
+- Arduino (C/C++)
+- Python (Serial + Backend logic)
+- SQLite (Data storage)
+- HTML/CSS/JS (Dashboard UI)
 
-## Project Structure
-
-- arduino/ → Simulated sensor data generator
-- python/ → Data processing and database insertion logic
-- database/ → SQLite database and initialization scripts
-- html/ → Day 5 dashboard UI (unchanged for stability)
-
----
-
-## Features
-
-- Simulated temperature, humidity, and light sensors
-- Continuous data generation every 2 seconds
-- SQLite database storage with timestamped entries
-- Database inspection tool for verifying stored data
-- Stable UI preserved from Day 5
-
----
-
-## Database
-
-Table: sensor_data
-
-Fields:
-- id (Primary Key)
-- temperature
-- humidity
-- light
-- timestamp
-
----
-
-## Learning Outcomes
-
-- Understanding IoT data pipelines
-- Introduction to relational databases (SQLite)
-- Data persistence concepts
-- Separation of system layers (device, processing, storage, UI)
-
----
-
-## Current Limitation
-
-The dashboard is static in this phase and does not yet display live database data. This will be implemented in the next phase.
-
----
-
-## Next Step
-
-- Connect dashboard to database
-- Enable live data visualization
-- Introduce controlled real-time updates
+## Status
+Day 7 - Initial integration setup
