@@ -2,7 +2,7 @@ import time
 import random
 import sqlite3
 
-conn = sqlite3.connect("database/iot.db")
+conn = sqlite3.connect("../database/iot.db")
 cursor = conn.cursor()
 
 print("Day 7 system running...")

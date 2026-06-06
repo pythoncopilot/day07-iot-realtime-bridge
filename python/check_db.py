@@ -1,6 +1,6 @@
 import sqlite3
 
-conn = sqlite3.connect("database/iot.db")
+conn = sqlite3.connect("../database/iot.db")
 cursor = conn.cursor()
 
 cursor.execute("""
