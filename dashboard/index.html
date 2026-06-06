@@ -14,54 +14,141 @@
     h1 {
       text-align: center;
       padding: 20px;
-      color: #38bdf8;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 15px;
       padding: 20px;
     }
 
-    .card {
+    .room {
       background: #1e293b;
-      padding: 20px;
       border-radius: 12px;
+      padding: 15px;
     }
 
-    .title {
-      font-size: 18px;
-      margin-bottom: 10px;
+    .room h2 {
+      margin-top: 0;
+      color: #38bdf8;
+    }
+
+    .device {
+      margin: 10px 0;
+    }
+
+    button {
+      padding: 8px;
+      margin: 3px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .on {
+      background: #22c55e;
+      color: white;
+    }
+
+    .off {
+      background: #ef4444;
+      color: white;
+    }
+
+    input[type="range"] {
+      width: 100%;
+    }
+
+    .status {
+      font-size: 12px;
       color: #93c5fd;
-    }
-
-    .value {
-      font-size: 22px;
-      font-weight: bold;
+      margin-top: 5px;
     }
   </style>
 </head>
 
 <body>
 
-<h1>Smart Home IoT Dashboard (Live)</h1>
+<h1>Smart Home IoT Control Panel</h1>
 
 <div class="grid">
 
-  <div class="card">
-    <div class="title">Living Room Light</div>
-    <div id="light" class="value">--</div>
+  <!-- Living Room -->
+  <div class="room">
+    <h2>Living Room</h2>
+
+    <div class="device">
+      Lights:
+      <button class="on" onclick="setLight(1)">ON</button>
+      <button class="off" onclick="setLight(0)">OFF</button>
+      <div class="status" id="livingLight">Status: --</div>
+    </div>
+
+    <div class="device">
+      Fan Speed:
+      <input type="range" min="0" max="100" oninput="setFan(this.value)">
+      <div class="status" id="livingFan">Speed: --</div>
+    </div>
   </div>
 
-  <div class="card">
-    <div class="title">Fan Speed</div>
-    <div id="fan" class="value">--</div>
+  <!-- Bedroom -->
+  <div class="room">
+    <h2>Bedroom</h2>
+
+    <div class="device">
+      AC Level:
+      <input type="range" min="16" max="30" oninput="setAC(this.value)">
+      <div class="status" id="bedAC">Temp: --</div>
+    </div>
   </div>
 
-  <div class="card">
-    <div class="title">AC Temperature</div>
-    <div id="ac" class="value">--</div>
+  <!-- Kitchen -->
+  <div class="room">
+    <h2>Kitchen</h2>
+
+    <div class="device">
+      Light:
+      <button class="on" onclick="setKitchen(1)">ON</button>
+      <button class="off" onclick="setKitchen(0)">OFF</button>
+      <div class="status" id="kitchenLight">Status: --</div>
+    </div>
+  </div>
+
+  <!-- Bathroom -->
+  <div class="room">
+    <h2>Bathroom</h2>
+
+    <div class="device">
+      Exhaust Fan:
+      <button class="on" onclick="setBath(1)">ON</button>
+      <button class="off" onclick="setBath(0)">OFF</button>
+      <div class="status" id="bathFan">Status: --</div>
+    </div>
+  </div>
+
+  <!-- Lounge -->
+  <div class="room">
+    <h2>Lounge</h2>
+
+    <div class="device">
+      TV Power:
+      <button class="on" onclick="setTV(1)">ON</button>
+      <button class="off" onclick="setTV(0)">OFF</button>
+      <div class="status" id="tv">Status: --</div>
+    </div>
+  </div>
+
+  <!-- Garage -->
+  <div class="room">
+    <h2>Garage</h2>
+
+    <div class="device">
+      Door:
+      <button class="on" onclick="setGarage(1)">OPEN</button>
+      <button class="off" onclick="setGarage(0)">CLOSE</button>
+      <div class="status" id="garage">Status: --</div>
+    </div>
   </div>
 
 </div>

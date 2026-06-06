@@ -1,38 +1,91 @@
-from flask import Flask, jsonify
-import sqlite3
+from flask import Flask, jsonify, request
+from flask_cors import CORS
+from db import init_db, log_control
 
 app = Flask(__name__)
-DB = "iot_data.db"
+CORS(app)
 
+# =========================
+# INIT DATABASE
+# =========================
+init_db()
 
-def get_latest():
-    conn = sqlite3.connect(DB)
-    cursor = conn.cursor()
+# =========================
+# DEVICE STATE (LIVE MEMORY)
+# =========================
+device_state = {
+    "light": 0,
+    "fan": 0,
+    "ac": 24,
 
-    cursor.execute("""
-        SELECT light, fan, ac, timestamp
-        FROM sensor_data
-        ORDER BY id DESC
-        LIMIT 1
-    """)
+    "kitchen": 0,
+    "bath": 0,
+    "tv": 0,
+    "garage": 0
+}
 
-    row = cursor.fetchone()
-    conn.close()
-
-    if row:
-        return {
-            "light": row[0],
-            "fan": row[1],
-            "ac": row[2],
-            "timestamp": row[3]
-        }
-    return {}
-
-
-@app.route("/latest")
+# =========================
+# GET CURRENT STATE
+# =========================
+@app.route("/latest", methods=["GET"])
 def latest():
-    return jsonify(get_latest())
+    return jsonify(device_state)
 
+# =========================
+# CONTROL DEVICES + LOG TO DB
+# =========================
+@app.route("/control", methods=["POST"])
+def control():
+    global device_state
 
+    data = request.json
+
+    for key in device_state.keys():
+        if key in data:
+            device_state[key] = data[key]
+
+            # log every change in SQLite
+            log_control(key, data[key])
+
+    return jsonify({
+        "status": "success",
+        "updated_state": device_state
+    })
+
+# =========================
+# RESET SYSTEM (DEBUG ONLY)
+# =========================
+@app.route("/reset", methods=["POST"])
+def reset():
+    global device_state
+
+    device_state = {
+        "light": 0,
+        "fan": 0,
+        "ac": 24,
+        "kitchen": 0,
+        "bath": 0,
+        "tv": 0,
+        "garage": 0
+    }
+
+    return jsonify({
+        "status": "reset_done",
+        "state": device_state
+    })
+
+# =========================
+# HEALTH CHECK
+# =========================
+@app.route("/")
+def home():
+    return jsonify({
+        "status": "Smart Home IoT API Running",
+        "endpoints": ["/latest", "/control", "/reset"]
+    })
+
+# =========================
+# RUN SERVER
+# =========================
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
