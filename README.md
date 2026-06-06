@@ -1,51 +1,48 @@
-# Day 7 - Real-Time IoT Data Pipeline (Arduino → Python → SQLite)
+# Day 7 - IoT Data Pipeline (Clean Start)
 
 ## Objective
-Build a basic real-time IoT data pipeline where simulated Arduino sensor data is sent via Serial, processed using Python, and stored in an SQLite database.
+Build a simple simulated IoT data pipeline to understand how data flows from devices to processing systems.
 
 ---
 
-## System Flow
+## System Design
 
-Arduino (Sensor Simulation)
+Arduino (Simulated Sensor Data)
         ↓
-Serial Communication
+Python Script (Data Processing)
         ↓
-Python Backend (Data Reader)
-        ↓
-SQLite Database Storage
+Future: Database + Web Dashboard
+
+---
+
+## What We Are Learning
+
+- How IoT devices generate data
+- How data is structured before sending
+- How backend systems process sensor data
+- How architecture is separated into layers
 
 ---
 
 ## Project Structure
 
-arduino/   → Arduino sensor simulation code  
-python/    → Python backend for reading and storing data  
+arduino/   → Simulated Arduino sensor code  
+python/    → Python data processor  
 html/      → Future dashboard UI  
-database/  → SQLite database file  
+database/  → Future storage layer  
 
 ---
 
-## Learning Goals
+## Current Phase
 
-- Understand how IoT devices generate continuous data
-- Learn Serial communication between Arduino and Python
-- Store real-time data into SQLite database
-- Prepare for API + dashboard integration in future steps
+We are ONLY simulating data flow.
 
----
-
-## Phase 1 (Current Step)
-
-- Arduino generates fake sensor values
-- Python will read Serial data
-- Data will be stored in SQLite database
+No real hardware or database connection is used yet.
 
 ---
 
-## Future Upgrades
+## Next Steps
 
-- REST API for data access
-- Live dashboard using HTML + JS
-- Device control (fan, light simulation)
-- Real IoT hardware integration
+- Arduino simulation
+- Python data processing
+- Introduction to structured IoT data formats
