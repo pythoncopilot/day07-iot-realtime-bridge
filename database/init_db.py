@@ -1,14 +1,19 @@
 import sqlite3
+import os
 
-conn = sqlite3.connect("iot.db")
+# ensure folder exists
+os.makedirs("database", exist_ok=True)
+
+conn = sqlite3.connect("database/iot.db")
 cursor = conn.cursor()
 
+# Clean schema matching your Day 5 dashboard
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS sensor_data (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    temperature INTEGER,
-    humidity INTEGER,
     light INTEGER,
+    fan INTEGER,
+    ac INTEGER,
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 )
 """)
@@ -16,4 +21,4 @@ CREATE TABLE IF NOT EXISTS sensor_data (
 conn.commit()
 conn.close()
 
-print("Database initialized")
+print("Day 7 Database initialized successfully")

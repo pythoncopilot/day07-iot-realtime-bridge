@@ -1,24 +1,29 @@
 import time
 import random
 import sqlite3
+import os
 
-conn = sqlite3.connect("../database/iot.db")
+print("Day 7 Processor Started...")
+
+# connect to DB
+conn = sqlite3.connect("database/iot.db")
 cursor = conn.cursor()
 
-print("Day 7 system running...")
-
 while True:
-    temperature = random.randint(20, 35)
-    humidity = random.randint(40, 80)
-    light = random.randint(200, 900)
+    # simulate Day 5 dashboard values
+    light = random.randint(0, 100)
+    fan = random.randint(0, 100)
+    ac = random.randint(0, 100)
 
-    print(f"Generated -> T:{temperature}, H:{humidity}, L:{light}")
+    print(f"Light: {light}% | Fan: {fan}% | AC: {ac}%")
 
+    # insert into database
     cursor.execute("""
-        INSERT INTO sensor_data (temperature, humidity, light)
+        INSERT INTO sensor_data (light, fan, ac)
         VALUES (?, ?, ?)
-    """, (temperature, humidity, light))
+    """, (light, fan, ac))
 
     conn.commit()
 
+    # simulate real-time delay
     time.sleep(2)

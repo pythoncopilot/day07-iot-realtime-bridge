@@ -1,43 +1,149 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>IoT Dashboard</title>
-    <style>
-        body {
-            font-family: Arial;
-            text-align: center;
-            background: #f4f4f4;
-        }
+  <title>Live IoT Smart Dashboard</title>
 
-        .box {
-            background: white;
-            display: inline-block;
-            padding: 20px;
-            margin: 10px;
-            width: 200px;
-            border-radius: 10px;
-        }
-    </style>
+  <style>
+    body {
+      font-family: Arial;
+      background: #0b1220;
+      color: white;
+      text-align: center;
+    }
+
+    .topbar {
+      margin: 20px;
+    }
+
+    button {
+      padding: 10px 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .play {
+      background: #22c55e;
+      color: white;
+    }
+
+    .pause {
+      background: #ef4444;
+      color: white;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      padding: 20px;
+    }
+
+    .card {
+      background: #1e293b;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .bar {
+      height: 12px;
+      background: #333;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+
+    .fill {
+      height: 12px;
+      border-radius: 10px;
+      width: 0%;
+    }
+  </style>
 </head>
 
 <body>
 
-<h1>IoT Dashboard (Day 5 UI - Stable)</h1>
+<h1>Live IoT Smart Dashboard</h1>
 
-<div class="box">
-    <h3>Temperature</h3>
-    <p>--</p>
+<div class="topbar">
+  <button id="toggleBtn" class="pause" onclick="toggleLive()">Pause</button>
 </div>
 
-<div class="box">
-    <h3>Humidity</h3>
-    <p>--</p>
-</div>
+<div class="grid">
 
-<div class="box">
+  <div class="card">
     <h3>Light</h3>
-    <p>--</p>
+    <div id="lightText">0%</div>
+    <div class="bar"><div id="lightBar" class="fill"></div></div>
+  </div>
+
+  <div class="card">
+    <h3>Fan</h3>
+    <div id="fanText">0%</div>
+    <div class="bar"><div id="fanBar" class="fill"></div></div>
+  </div>
+
+  <div class="card">
+    <h3>AC</h3>
+    <div id="acText">0%</div>
+    <div class="bar"><div id="acBar" class="fill"></div></div>
+  </div>
+
 </div>
+
+<script>
+
+let isRunning = true;
+
+// toggle play/pause
+function toggleLive() {
+  isRunning = !isRunning;
+
+  const btn = document.getElementById("toggleBtn");
+
+  if (isRunning) {
+    btn.innerText = "Pause";
+    btn.className = "pause";
+  } else {
+    btn.innerText = "Play";
+    btn.className = "play";
+  }
+}
+
+// fetch data from Flask API
+async function updateData() {
+  if (!isRunning) return;
+
+  try {
+    const res = await fetch("http://127.0.0.1:5000/data");
+    const data = await res.json();
+
+    update("light", data.light);
+    update("fan", data.fan);
+    update("ac", data.ac);
+
+  } catch (err) {
+    console.log("Fetch error:", err);
+  }
+}
+
+// update UI
+function update(id, value) {
+  document.getElementById(id + "Text").innerText = value + "%";
+
+  const bar = document.getElementById(id + "Bar");
+  bar.style.width = value + "%";
+
+  if (value < 30) bar.style.background = "blue";
+  else if (value < 70) bar.style.background = "orange";
+  else bar.style.background = "green";
+}
+
+// auto refresh every 2 seconds
+setInterval(updateData, 2000);
+updateData();
+
+</script>
 
 </body>
 </html>
